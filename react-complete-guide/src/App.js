@@ -14,15 +14,11 @@ class App extends Component {
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    /* console.log(this.state); */
-    this.setState({
-      persons: [
-        {name: newName, age: 28},
-        {name: 'Manu', age: 29},
-        {name: 'Stephanie', age: 27}
-      ]
-    });
+  deletePersonHandler = (personIndex) => {
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
   }
 
   nameChangedHandler = (event) => {
@@ -56,8 +52,8 @@ class App extends Component {
 
     if (this.state.showPersons) {
       persons = <div>
-          {this.state.persons.map(person => {
-            return <Person name={person.name} age={person.age} />
+          {this.state.persons.map((person, index) => {
+            return <Person click={() => this.deletePersonHandler(index)} name={person.name} age={person.age} />
           })}
         </div>
     }
@@ -66,14 +62,9 @@ class App extends Component {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <button style={style} onClick={this.togglePersonsHandler}>Toogle Persons</button>
-        { 
-        // this.state.showPersons === true ?
-            persons
-        // : null
-        }
+        {persons}
       </div>
     );
-    /* return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi, I\'m a React App')); */
   }
 
 }
